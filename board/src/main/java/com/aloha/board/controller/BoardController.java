@@ -7,10 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.aloha.board.dto.Board;
 import com.aloha.board.mapper.BoardMapper;
-
+import com.aloha.board.service.BoardService;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class BoardController {
     
     @Autowired
-    private BoardMapper boardMapper;
+    private BoardService boardService;
 
     @GetMapping("/list")
     public String list(Model model) throws Exception {
@@ -32,29 +33,32 @@ public class BoardController {
     }
 
     @GetMapping("/insert")
-    public String intsert() throws Exception {
+    public String insert() throws Exception {
         return "/board/insert";
     }
     
     @PostMapping("/insert")
     public String insertPro(Board board) throws Exception {
-        int result = boardMapper.insert(board);
+        int result = boardService.insert(board);
         if(result == 0) {
-            return "error:/board/list";
+            return "redirect:/board/insert?error";  
         }
-        return "/board/insert";
+        return "/board/list";
     }
     
-    @GetMapping("/read/{no}")
-    public String read(Model model, int no) throws Exception {
-        Board board = new Board();
-        board = boardMapper.select(no);
-
-        if(board != null) {
-
-            model.addAttribute("board", board);
-            return "/board/read/${no}";
-        }
-        return "redircet:/board/list";   
+    @GetMapping("/read")
+    public String read(@RequestParam("no") int no, Model model) throws Exception {
+        // 데이터 요청
+        Board board = boardService.select(no);
+        // 모델 등록
+        model.addAttribute("board", board);
+        // 뷰페이지 지정
+        return "/board/read";
     }
+
+    @GetMapping("/update")
+    public String update(@RequestParam String param) {
+        return new String();
+    }
+    
 }
