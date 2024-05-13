@@ -65,8 +65,8 @@ class BoardApplicationTests {
 	@Test
 	@Order(2)
 	void select() throws Exception {
-		int no = 2;
-		Board board = boardService.select(no);
+		int no = 1;
+		Board board = boardService.read(no);
 
 		if( board == null ) {
 			// log.error("게시글 조회 실패 - board is null");
@@ -87,8 +87,8 @@ class BoardApplicationTests {
 	@Test
 	@Order(3)
 	void update() throws Exception {
-		int no = 2;
-		Board board = boardService.select(no);
+		int no = 1;
+		Board board = boardService.read(no);
 		board.setTitle("updated title");
 		board.setWriter("updated writer");
 		board.setContent("updated content");
@@ -108,7 +108,7 @@ class BoardApplicationTests {
 	@Test
 	@Order(4)
 	void delete() throws Exception {
-		int no = 2;
+		int no = 1;
 
 		int result = boardService.delete(no);
 

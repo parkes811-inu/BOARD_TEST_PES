@@ -1,6 +1,5 @@
 package com.aloha.board.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,46 +10,34 @@ import com.aloha.board.mapper.BoardMapper;
 
 @Service
 public class BoardServiceImpl implements BoardService {
-
+    
     @Autowired
     private BoardMapper boardMapper;
-    
-    @Override
-    public int insert(Board board) throws Exception {
-
-        int result = boardMapper.insert(board);
-
-        if(result > 0) {
-            return result;
-        } 
-        return 0;
-    }
 
     @Override
     public List<Board> list() throws Exception {
-        List<Board> boardList = new ArrayList<>();
-        boardList = boardMapper.list();
+        List<Board> boardList = boardMapper.list();
         return boardList;
     }
 
     @Override
-    public Board select(int no) throws Exception {
-        Board board = boardMapper.select(no);
-        if(board != null) {
-            return board;
-        }
-        return null;
+    public Board read(int no) throws Exception {
+        Board board = boardMapper.read(no);
+        return board;
+    }
+
+    @Override
+    public int insert(Board board) throws Exception {
+        return boardMapper.insert(board);
     }
 
     @Override
     public int update(Board board) throws Exception {
-        int result = boardMapper.update(board);
-        return result;
+        return boardMapper.update(board);
     }
 
     @Override
     public int delete(int no) throws Exception {
-        int result = boardMapper.delete(no);
-        return result;
+        return boardMapper.delete(no);
     }
 }
